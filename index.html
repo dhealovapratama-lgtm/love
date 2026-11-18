@@ -1,0 +1,518 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DHEALOVA ❤️ SYIFA | Matrix Love</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background: #000;
+    color: #00ff66;
+    font-family: 'Courier New', monospace;
+    overflow-x: hidden;
+}
+
+canvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.container {
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 25px 15px;
+}
+
+.card {
+    width: 100%;
+    max-width: 470px;
+    padding: 35px 22px;
+    text-align: center;
+    background: rgba(0, 15, 5, .91);
+    border: 1px solid #00ff66;
+    border-radius: 20px;
+    box-shadow:
+        0 0 15px #00ff6655,
+        0 0 45px #00ff6622;
+    backdrop-filter: blur(8px);
+}
+
+.top-text {
+    font-size: 11px;
+    letter-spacing: 5px;
+    color: #00ff66;
+    margin-bottom: 25px;
+}
+
+h1 {
+    font-size: clamp(25px, 7vw, 36px);
+    color: white;
+    text-shadow: 0 0 15px #00ff66;
+    margin-bottom: 12px;
+}
+
+.names {
+    font-size: 19px;
+    color: #00ff66;
+    letter-spacing: 3px;
+    margin: 20px 0;
+    text-shadow: 0 0 12px #00ff66;
+}
+
+.subtitle {
+    font-size: 13px;
+    color: #c1ffd2;
+    line-height: 1.8;
+    min-height: 50px;
+}
+
+.heart {
+    font-size: 55px;
+    margin: 20px 0;
+    animation: heartbeat 1.1s infinite;
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+.divider {
+    width: 70%;
+    height: 1px;
+    background: #00ff66;
+    margin: 20px auto;
+    box-shadow: 0 0 10px #00ff66;
+}
+
+.countdown-title {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: #b8ffc9;
+    margin-bottom: 17px;
+}
+
+.countdown {
+    display: flex;
+    justify-content: center;
+    gap: 9px;
+}
+
+.time {
+    flex: 1;
+    max-width: 85px;
+    padding: 13px 5px;
+    background: rgba(0, 255, 80, .08);
+    border: 1px solid #00ff66;
+    border-radius: 9px;
+    box-shadow: inset 0 0 10px #00ff6615;
+}
+
+.time strong {
+    display: block;
+    font-size: 25px;
+    color: white;
+}
+
+.time span {
+    font-size: 9px;
+    color: #00ff66;
+    letter-spacing: 1px;
+}
+
+.target-date {
+    margin-top: 15px;
+    font-size: 11px;
+    color: #8bca9b;
+}
+
+button {
+    margin-top: 28px;
+    padding: 14px 25px;
+    border: none;
+    border-radius: 30px;
+    background: #00ff66;
+    color: #001b08;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: 0 0 18px #00ff6688;
+    transition: .3s;
+}
+
+button:hover {
+    transform: scale(1.06);
+    background: white;
+    box-shadow: 0 0 30px #00ff66;
+}
+
+.message {
+    display: none;
+    margin-top: 25px;
+    padding: 22px 14px;
+    border: 1px solid #00ff66;
+    border-radius: 12px;
+    background: rgba(0, 255, 80, .07);
+    animation: reveal .9s ease;
+}
+
+.message h2 {
+    font-size: 22px;
+    color: #00ff66;
+    margin-bottom: 18px;
+    text-shadow: 0 0 10px #00ff66;
+}
+
+.message p {
+    color: white;
+    font-size: 15px;
+    line-height: 2;
+}
+
+.secret {
+    display: block;
+    margin-top: 20px;
+    font-size: 29px;
+    color: #00ff66;
+    font-weight: bold;
+    text-shadow: 0 0 15px #00ff66;
+}
+
+@keyframes reveal {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.footer {
+    font-size: 9px;
+    color: #448d57;
+    margin-top: 30px;
+    letter-spacing: 2px;
+}
+
+.floating-heart {
+    position: fixed;
+    bottom: -40px;
+    z-index: 5;
+    pointer-events: none;
+    animation: floatUp 5s linear forwards;
+}
+
+@keyframes floatUp {
+    to {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@media(max-width: 380px) {
+    .card { padding: 28px 14px; }
+    .time strong { font-size: 20px; }
+    .countdown { gap: 5px; }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div class="container">
+    <main class="card">
+
+        <div class="top-text">
+            SYSTEM://MATRIX_LOVE.EXE
+        </div>
+
+        <h1>HELLO, SYIFA ❤️</h1>
+
+        <div class="names">
+            DHEALOVA <span style="color:white">×</span> SYIFA
+        </div>
+
+        <div class="subtitle" id="typing"></div>
+
+        <div class="heart">💚</div>
+
+        <div class="divider"></div>
+
+        <div class="countdown-title">
+            COUNTDOWN TO OUR SPECIAL MOMENT
+        </div>
+
+        <div class="countdown">
+            <div class="time">
+                <strong id="days">00</strong>
+                <span>HARI</span>
+            </div>
+
+            <div class="time">
+                <strong id="hours">00</strong>
+                <span>JAM</span>
+            </div>
+
+            <div class="time">
+                <strong id="minutes">00</strong>
+                <span>MENIT</span>
+            </div>
+
+            <div class="time">
+                <strong id="seconds">00</strong>
+                <span>DETIK</span>
+            </div>
+        </div>
+
+        <div class="target-date">
+            31 DECEMBER 2026
+        </div>
+
+        <button id="surpriseButton" onclick="openSurprise()">
+            UNLOCK YOUR SURPRISE ❤️
+        </button>
+
+        <div class="message" id="message">
+            <h2>FOR MY FAVORITE PERSON ❤️</h2>
+
+            <p>
+                Hai Syifa...
+                <br><br>
+                Ada satu pesan kecil yang mungkin
+                sederhana, tetapi punya arti tersendiri.
+                <br><br>
+                Dari seseorang yang bernama
+                <b style="color:#00ff66">DHEALOVA</b>,
+                untuk seseorang yang spesial.
+                <br><br>
+                Jangan lupa tersenyum hari ini.
+                Karena senyummu adalah salah satu
+                hal yang ingin selalu aku lihat.
+            </p>
+
+            <span class="secret">adeeeee ❤️</span>
+
+            <div style="font-size:35px;margin-top:20px">
+                💚 💖 💚
+            </div>
+        </div>
+
+        <div class="footer">
+            ENCRYPTED WITH LOVE
+            <br><br>
+            FROM DHEALOVA TO SYIFA © 2026
+        </div>
+
+    </main>
+</div>
+
+<script>
+
+// ===================================
+// MATRIX LOVE - DHEALOVA & SYIFA
+// ===================================
+
+// 1. EFEK MESIN KETIK
+
+const text =
+"Initializing love system... Access granted. Syifa, you are someone special. ❤️";
+
+let index = 0;
+
+function typingEffect() {
+    if (index < text.length) {
+        document.getElementById("typing").textContent +=
+            text.charAt(index);
+
+        index++;
+
+        setTimeout(typingEffect, 55);
+    }
+}
+
+typingEffect();
+
+
+// 2. COUNTDOWN 31 DESEMBER 2026
+
+const targetDate = new Date(2026, 11, 31, 23, 59, 59).getTime();
+
+function updateCountdown() {
+
+    const now = new Date().getTime();
+    const distance = targetDate - now;
+
+    if (distance <= 0) {
+        document.getElementById("days").textContent = "00";
+        document.getElementById("hours").textContent = "00";
+        document.getElementById("minutes").textContent = "00";
+        document.getElementById("seconds").textContent = "00";
+        return;
+    }
+
+    const days = Math.floor(
+        distance / (1000 * 60 * 60 * 24)
+    );
+
+    const hours = Math.floor(
+        (distance / (1000 * 60 * 60)) % 24
+    );
+
+    const minutes = Math.floor(
+        (distance / (1000 * 60)) % 60
+    );
+
+    const seconds = Math.floor(
+        (distance / 1000) % 60
+    );
+
+    document.getElementById("days").textContent = days;
+    document.getElementById("hours").textContent = hours;
+    document.getElementById("minutes").textContent = minutes;
+    document.getElementById("seconds").textContent = seconds;
+}
+
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+
+// 3. TOMBOL KEJUTAN
+
+function openSurprise() {
+
+    const message = document.getElementById("message");
+
+    message.style.display = "block";
+
+    document.getElementById("surpriseButton").textContent =
+        "SURPRISE UNLOCKED ❤️";
+
+    createHearts();
+
+    message.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+    });
+}
+
+
+// 4. ANIMASI HATI
+
+function createHearts() {
+
+    for (let i = 0; i < 50; i++) {
+
+        setTimeout(() => {
+
+            const heart = document.createElement("div");
+
+            heart.className = "floating-heart";
+
+            const symbols = ["❤️", "💚", "💕", "💖", "💗"];
+
+            heart.textContent =
+                symbols[Math.floor(Math.random() * symbols.length)];
+
+            heart.style.left = Math.random() * 100 + "vw";
+
+            heart.style.fontSize =
+                (15 + Math.random() * 25) + "px";
+
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+
+        }, i * 100);
+    }
+}
+
+
+// 5. MATRIX RAIN EFFECT
+
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+
+const letters = "01DHEALOVASYIFALOVE0123456789";
+
+const fontSize = 15;
+
+let columns;
+let drops;
+
+function resizeCanvas() {
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    columns = Math.floor(canvas.width / fontSize);
+
+    drops = Array(columns).fill(1);
+}
+
+resizeCanvas();
+
+function drawMatrix() {
+
+    ctx.fillStyle = "rgba(0,0,0,0.08)";
+
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "#00ff66";
+
+    ctx.font = fontSize + "px monospace";
+
+    for (let i = 0; i < drops.length; i++) {
+
+        const letter = letters.charAt(
+            Math.floor(Math.random() * letters.length)
+        );
+
+        ctx.fillText(
+            letter,
+            i * fontSize,
+            drops[i] * fontSize
+        );
+
+        if (
+            drops[i] * fontSize > canvas.height &&
+            Math.random() > 0.975
+        ) {
+            drops[i] = 0;
+        }
+
+        drops[i]++;
+    }
+}
+
+setInterval(drawMatrix, 45);
+
+window.addEventListener("resize", resizeCanvas);
+
+</script>
+
+</body>
+</html>
